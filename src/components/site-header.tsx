@@ -27,7 +27,14 @@ export async function SiteHeader() {
             priority
             className="h-9 w-9 shrink-0 transition-transform group-hover:scale-105"
           />
-          <span className="font-display text-2xl font-semibold tracking-tight hidden sm:inline">achou</span>
+          <Image
+            src="/logo-wordmark.png"
+            alt="Achou"
+            width={108}
+            height={26}
+            priority
+            className="hidden h-[26px] w-auto sm:inline-block"
+          />
         </Link>
 
         <div className="hidden flex-1 md:block">

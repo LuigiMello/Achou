@@ -24,7 +24,7 @@ export function AuthShell({
         <div className="mx-auto w-full max-w-sm">
           <Link href="/" className="mb-8 inline-flex items-center gap-2">
             <Image src="/logo-mark.png" alt="" width={34} height={34} className="h-[34px] w-[34px]" />
-            <span className="font-display text-xl font-semibold">achou</span>
+            <Image src="/logo-wordmark.png" alt="Achou" width={100} height={24} className="h-6 w-auto" />
           </Link>
 
           <p className="mb-1.5 text-xs font-bold uppercase tracking-wide text-clay">{eyebrow}</p>

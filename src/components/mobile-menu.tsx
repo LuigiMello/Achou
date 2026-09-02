@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, HelpCircle, Plus } from "lucide-react";
 import { CategoryIcon } from "@/lib/category-icons";
 import type { Category } from "@/generated/prisma";
@@ -36,7 +37,7 @@ export function MobileMenu({ categories }: { categories: Category[] }) {
           />
           <div className="rise-in absolute left-0 top-0 h-full w-[82vw] max-w-xs overflow-y-auto bg-[var(--paper)] p-5 shadow-2xl">
             <div className="mb-6 flex items-center justify-between">
-              <span className="font-display text-xl font-semibold">achou</span>
+              <Image src="/logo-wordmark.png" alt="Achou" width={100} height={24} className="h-6 w-auto" />
               <button onClick={() => setOpen(false)} aria-label="Fechar" className="grid h-9 w-9 place-items-center rounded-full border border-line">
                 <X className="h-4 w-4" aria-hidden />
               </button>
