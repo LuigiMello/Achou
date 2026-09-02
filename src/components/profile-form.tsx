@@ -9,7 +9,7 @@ import { useUser, useToast } from "@/components/providers";
 import { BRAZIL_STATES } from "@/lib/utils";
 import type { PublicUser } from "@/components/providers";
 
-export function ProfileForm({ user }: { user: PublicUser & { createdAt: string } }) {
+export function ProfileForm({ user }: { user: Omit<PublicUser, "createdAt"> & { createdAt: string } }) {
   const { setUser } = useUser();
   const { push } = useToast();
   const [name, setName] = useState(user.name);

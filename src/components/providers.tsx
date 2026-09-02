@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -73,22 +74,37 @@ export function AppProviders({
   const [unread, setUnread] = useState(unreadCount);
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  useEffect(() => {
+  // Keep client state in sync when the server-provided props change (e.g. after router.refresh()).
+  const [syncedUser, setSyncedUser] = useState(user);
+  if (user !== syncedUser) {
+    setSyncedUser(user);
     setCurrentUser(user);
-  }, [user]);
+  }
 
-  useEffect(() => {
+  const [syncedUnread, setSyncedUnread] = useState(unreadCount);
+  if (unreadCount !== syncedUnread) {
+    setSyncedUnread(unreadCount);
     setUnread(unreadCount);
-  }, [unreadCount]);
+  }
 
+  // One-time hydration of persisted preferences from localStorage after mount
+  // (kept in an effect on purpose: reading localStorage during SSR/first paint
+  // would cause a hydration mismatch between server and client output).
+  const hydratedPrefs = useRef(false);
   useEffect(() => {
+    if (hydratedPrefs.current) return;
+    hydratedPrefs.current = true;
     const stored = window.localStorage.getItem("achou:theme") as ThemeMode | null;
     const storedScale = window.localStorage.getItem("achou:fontScale");
     const storedContrast = window.localStorage.getItem("achou:contrast");
     const storedMotion = window.localStorage.getItem("achou:motion");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional post-mount hydration, see comment above
     if (stored) setThemeState(stored);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional post-mount hydration, see comment above
     if (storedScale) setFontScaleState(Number(storedScale) as FontScale);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional post-mount hydration, see comment above
     if (storedContrast) setHighContrast(storedContrast === "1");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional post-mount hydration, see comment above
     if (storedMotion) setReduceMotion(storedMotion === "1");
   }, []);
 
