@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f6faf6;
+  --paper-raised: #ffffff;
+  --ink: #142019;
+  --ink-soft: #526257;
+  --line: #dde8e0;
+  --clay: #1a9c56;
+  --clay-ink: #ffffff;
+  --clay-deep: #147a44;
+  --olive: #163526;
+  --olive-ink: #f2f7f3;
+  --mustard: #e3a72b;
+  --mustard-ink: #2a2109;
+  --surface: #e6f2ea;
+  --danger: #c0392b;
+  --success: #2f9e44;
+  --focus-ring: #1c63d6;
+  --shadow-color: 150 30% 12%;
+
+  --a11y-scale: 1;
+  --a11y-motion: 1;
+  --a11y-contrast: 0;
+}
+
+[data-theme="dark"] {
+  --paper: #0e1712;
+  --paper-raised: #16211a;
+  --ink: #eaf3ec;
+  --ink-soft: #a9c2ae;
+  --line: #22352a;
+  --clay: #34d07a;
+  --clay-ink: #062012;
+  --clay-deep: #5be39a;
+  --olive: #9fd9b6;
+  --olive-ink: #0f1e14;
+  --mustard: #f0bc4d;
+  --mustard-ink: #241a04;
+  --surface: #17231c;
+  --danger: #ff6f66;
+  --success: #6fcf87;
+  --focus-ring: #7fb0ff;
+}
+
+[data-contrast="high"] {
+  --line: color-mix(in oklab, var(--ink) 55%, transparent);
+  --ink-soft: var(--ink);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-clay: var(--clay);
+  --color-clay-ink: var(--clay-ink);
+  --color-clay-deep: var(--clay-deep);
+  --color-olive: var(--olive);
+  --color-olive-ink: var(--olive-ink);
+  --color-mustard: var(--mustard);
+  --color-mustard-ink: var(--mustard-ink);
+  --color-surface: var(--surface);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-manrope);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --a11y-motion: 0;
+  }
+}
+
+html {
+  font-size: calc(100% * var(--a11y-scale));
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  background-image:
+    radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+* {
+  border-color: var(--line);
+}
+
+::selection {
+  background: var(--clay);
+  color: var(--clay-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.font-display {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+.texture-noise {
+  position: relative;
+}
+
+.texture-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+.parallax-layer {
+  will-change: transform;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 26s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+[data-motion="reduce"] .animate-marquee,
+[data-motion="reduce"] .rise-in,
+[data-motion="reduce"] .card-lift {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+.chip-underline {
+  background-image: linear-gradient(var(--clay), var(--clay));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size 0.25s ease;
+}
+
+.chip-underline:hover,
+.chip-underline:focus-visible {
+  background-size: 100% 2px;
+}
+
+.card-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-lift:hover {
+  transform: translateY(-6px) rotate(-0.15deg);
+  box-shadow: 0 22px 40px -18px hsl(var(--shadow-color) / 0.35);
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.75rem 1.25rem;
+  z-index: 100;
+  border-radius: 0 0 8px 0;
+}
+
+.skip-link:focus {
+  left: 0;
+  top: 0;
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rise-in {
+  animation: rise-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.scrollbar-thin {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
+}
